@@ -1,9 +1,8 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
 <div class="container">
-
     <div class="card card-body bg-light mt-5">
         <h2>Add New Article</h2>
-        <form action="<?= URLROOT; ?>/articles/add " method="post" enctype="multipart/form-data">
+        <form action="<?= URLROOT; ?>articles/add " method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -31,7 +30,6 @@
                         <input type="text" name="description" class="form-control form-control-lg <?= (!empty($data['description_error'])) ? 'is-invalid' : ''; ?>" value="<?= $data['description']; ?>">
                         <span class="invalid-feedback"><?= $data['description_error']; ?></span>
                     </div>
-
                     <div class="form-group">
                         <div class="custom-file">
                             <input type="file" name="fileToUpload" id="fileToUpload" class="custom-file-input <?= (!empty($data['img_error'])) ? 'is-invalid' : ''; ?>">
@@ -39,20 +37,17 @@
                             <span class="invalid-feedback"><?= $data['img_error']; ?></span>
                         </div>
                     </div>
-
                 </div>
                 <div class="col">
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Article Content: <sup>*</sup></label>
-                        <textarea name="body" class="form-control rounded-0 <?= (!empty($data['body_error'])) ? 'is-invalid' : ''; ?>" id="exampleFormControlTextarea1" rows="10">
+                        <textarea name="body" class="form-control rounded-0 <?= (!empty($data['body_error'])) ? 'is-invalid' : ''; ?>" rows="10">
                              <?= $data['body']; ?>
                         </textarea>
                         <span class="invalid-feedback"><?= $data['body_error']; ?></span>
                     </div>
                 </div>
-
             </div>
-
             <div class="row justify-content-center">
                 <div class="col-md-6 ">
                     <input name="submit" type="submit" value="Add" class="btn btn-success btn-block">
@@ -61,6 +56,5 @@
         </form>
     </div>
 </div>
-
 
 <?php require APPROOT . '/views/inc/footer.php'; ?>

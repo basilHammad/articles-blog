@@ -21,7 +21,7 @@
             <div class="col-md-6">
                 <div class="card-small card-border mb-3">
                     <div class="img-wrapper mb-3">
-                        <a href="<?= URLROOT; ?>articles/edit/<?= $article->id; ?>">
+                        <a href="<?= URLROOT; ?>articles/show/<?= $article->id; ?>">
                             <img src="<?= URLROOT . 'img/article-imgs/' . $article->img ?>" alt="" />
                         </a>
                     </div>

@@ -22,55 +22,22 @@
 <section class="py-5">
   <div class="container">
     <div class="row">
-      <div class="col-sm-8">
-        <div class="card">
-          <div class="img-wrapper mb-3">
-            <img src="<?= URLROOT; ?>img/2019-10-03_Wordpress_forum_Plugin-01-2-1800x620.jpg" alt="" />
-            <div class="carousel-caption d-none d-md-block">
-              <h5>Lorem, ipsum adipisicing elit. Harum, laudantium.</h5>
-              <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Harum, laudantium.
-              </p>
+      <div class="col-md-8">
+        <?php foreach ($data['articles'] as $article) { ?>
+          <div class="card mb-5">
+            <div class="img-wrapper mb-4">
+              <a href="<?= URLROOT; ?>articles/show/<?= $article->id; ?>">
+                <img src="<?= URLROOT . 'img/article-imgs/' . $article->img ?>" alt="" />
+              </a>
             </div>
+            <a href="#"><strong><?= strtoupper($article->category)  ?></strong></a>
+            <h2 class="pt-4"><?= $article->title ?></h2>
+            <p> <?= $article->description ?> </p>
           </div>
-          <a href="#"><strong>DEVELOPMENT</strong></a>
-          <h2 class="pt-4">Lorem ipsum dolor sit amet consectetur.</h2>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero
-            quae ad culpa blanditiis sapiente consectetur laboriosam! Neque,
-            blanditiis. Odit vel atque porro veritatis non numquam, id
-            ipsam, quia, ex ut tenetur ab explicabo molestias vero!
-          </p>
-        </div>
-        <div class="card">
-          <div class="img-wrapper mb-3">
-            <img src="<?= URLROOT; ?>img/2019-06-14_Sales-Enablement_Audience-Personas_Agency-7204-1280x853.jpg" alt="" />
-          </div>
-          <a href="#"><strong>DEVELOPMENT</strong></a>
-          <h2 class="pt-4">Lorem ipsum dolor sit amet consectetur.</h2>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero
-            quae ad culpa blanditiis sapiente consectetur laboriosam! Neque,
-            blanditiis. Odit vel atque porro veritatis non numquam, id
-            ipsam, quia, ex ut tenetur ab explicabo molestias vero!
-          </p>
-        </div>
-        <div class="card">
-          <div class="img-wrapper mb-3">
-            <img src="<?= URLROOT; ?>img/2019-06-14_Sales-Enablement_Audience-Personas_Developer-8078-1280x853.jpg" alt="" />
-          </div>
-          <a href="#"><strong>DEVELOPMENT</strong></a>
-          <h2 class="pt-4">Lorem ipsum dolor sit amet consectetur.</h2>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero
-            quae ad culpa blanditiis sapiente consectetur laboriosam! Neque,
-            blanditiis. Odit vel atque porro veritatis non numquam, id
-            ipsam, quia, ex ut tenetur ab explicabo molestias vero!
-          </p>
-        </div>
+
+        <?php } ?>
       </div>
-      <div class="col-sm-4 px-3">
+      <div class="col-md-4 px-3">
         <div class="sections-wrapper px-1 py-3 mb-5 bg-light">
           <h4>Sections</h4>
           <ul>

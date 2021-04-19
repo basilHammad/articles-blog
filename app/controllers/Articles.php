@@ -1,5 +1,5 @@
 <?php
-class Articles  extends Controller
+class Articles extends Controller
 {
 
     public function __construct()
@@ -25,16 +25,13 @@ class Articles  extends Controller
         };
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             $target_dir =  '/var/www/html/blog/public/img/article-imgs/';
             $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
             $uploadOk = true;
             $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
             $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-            var_dump($_FILES);
-            // var_dump('tewst', strtolower(pathinfo($target_file, PATHINFO_EXTENSION)));
-            // die;
 
             if (!$check !== false) {
                 $data['img_error'] =  "File is not an image.";
@@ -50,7 +47,7 @@ class Articles  extends Controller
             }
 
             if ($uploadOk) {
-                if (!move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) die('failed');
+                move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
             } else {
                 die('failed to store ');
             }
@@ -82,9 +79,6 @@ class Articles  extends Controller
                 empty($data['body_error']) &&
                 empty($data['img_error'])
             ) {
-
-
-
                 if ($this->articleModel->addArticle($data)) {
                     flash('article_message', 'Article added');
                     redirect('articles/manage');
@@ -113,13 +107,38 @@ class Articles  extends Controller
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
+            $target_dir =  '/var/www/html/blog/public/img/article-imgs/';
+            $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+            $uploadOk = true;
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+
+            if (!$check !== false) {
+                $data['img_error'] =  "File is not an image.";
+                $uploadOk = false;
+            }
+
+            if (
+                $imageFileType != "jpg" && $imageFileType != "png" &&
+                $imageFileType != "jpeg" && $imageFileType != "gif"
+            ) {
+                $data['img_error'] = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                $uploadOk = false;
+            }
+
+            if ($uploadOk) {
+                move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+            } else {
+                die('failed to store ');
+            }
+
             $data = [
                 'user_id' => $_SESSION['user_id'],
                 'title' => trim($_POST['title']),
                 'category' => $_POST['category'],
                 'description' => trim($_POST['description']),
                 'body' => trim($_POST['body']),
-                'img' => $_POST['img'],
+                'img' => basename($_FILES["fileToUpload"]["name"]),
                 'title_error' => '',
                 'category_error' => '',
                 'description_error' => '',
@@ -131,7 +150,6 @@ class Articles  extends Controller
             if (empty($data['category'])) $data['category_error']       = 'please chose a category';
             if (empty($data['description'])) $data['description_error'] = 'please enter a description';
             if (empty($data['body'])) $data['body_error']               = 'please enter the article body';
-            if (empty($data['img'])) $data['img_error']                 = 'please chose an image for the article';
 
             if (
                 empty($data['title_error']) &&
@@ -169,6 +187,74 @@ class Articles  extends Controller
             redirect('articles/manage');
         } else {
             die('Some Thing Went Wrong');
+        }
+    }
+
+    public function category($category)
+    {
+        $articles = $this->articleModel->getArticlesByCategory($category);
+        $data = ['articles' => $articles];
+        $this->view('articles/category', $data);
+    }
+
+    public function show($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+
+            $data = [
+                $article = $this->articleModel->getArticleById($id),
+                'id' => $id,
+                'user_id' => $_SESSION['user_id'],
+                'comment' => trim($_POST['comment']),
+                'name' => $_POST['name'],
+                'email' => trim($_POST['email']),
+                'comment_error' => '',
+                'name_error' => '',
+                'email_error' => '',
+            ];
+
+
+            if (empty($data['email'])) $data['email_error'] = 'email is required!';
+            if (empty($data['name'])) $data['name_error'] = 'name is required!';
+            if (empty($data['comment'])) $data['name_error'] = 'comment is required!';
+
+            if (
+                empty($data['title_error']) &&
+                empty($data['category_error']) &&
+                empty($data['description_error']) &&
+                empty($data['body_error']) &&
+                empty($data['img_error'])
+            ) {
+                $this->articleModel->addComment($data);
+                $article = $this->articleModel->getArticleById($id);
+                $comments = $this->articleModel->getComments();
+                $data = [
+                    'article' => $article,
+                    'id' => $id,
+                    'comments' => $comments,
+                    'comment' => '',
+                    'name' => '',
+                    'email' => '',
+                ];
+                $this->view('articles/show', $data);
+            } else {
+                $this->view('articles/show/', $data);
+            }
+        } else {
+            $article = $this->articleModel->getArticleById($id);
+            $comments = $this->articleModel->getComments();
+            $data = [
+                'article' => $article,
+                'id' => $id,
+                'comments' => $comments,
+                'comment' => '',
+                'name' => '',
+                'email' => '',
+            ];
+            $this->view('articles/show', $data);
         }
     }
 }

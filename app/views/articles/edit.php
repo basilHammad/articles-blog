@@ -3,7 +3,7 @@
 
     <div class="card card-body bg-light mt-5">
         <h2>Edit Article</h2>
-        <form action="<?= URLROOT; ?>/articles/edit/<?= $data['id'] ?> " method="post" enctype="multipart/form-data">
+        <form action="<?= URLROOT; ?>articles/edit/<?= $data['id'] ?> " method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">

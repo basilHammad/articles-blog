@@ -17,6 +17,7 @@ ul {
 }
 
 .card {
+  border: none;
   & .img-wrapper {
     height: 500px;
 
@@ -70,4 +71,23 @@ ul {
       height: 100%;
     }
   }
+}
+
+.article {
+  p {
+    font-size: 22px;
+  }
+}
+
+.hero {
+  height: 70vh;
+
+  img {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.comment {
+  padding: 10px 150px;
 }

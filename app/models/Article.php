@@ -92,4 +92,41 @@ class Article
             return false;
         }
     }
+
+
+    public function getArticlesByCategory($category)
+    {
+        $this->db->query('SELECT * FROM articles WHERE category = :category');
+        $this->db->bind(':category', $category);
+
+        $row = $this->db->resultSet();
+
+        return $row;
+    }
+
+
+    public function addComment($data)
+    {
+        $this->db->query('INSERT INTO comments(body, name, email, user_id)
+                                        VALUES(:comment, :name, :email, :user_id)');
+
+        $this->db->bind(':comment', $data['comment']);
+        $this->db->bind(':name', $data['name']);
+        $this->db->bind(':email', $data['email']);
+        $this->db->bind(':user_id', $data['user_id']);
+
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getComments()
+    {
+        $this->db->query('SELECT * FROM comments');
+
+        $result = $this->db->resultSet();
+        return $result;
+    }
 }

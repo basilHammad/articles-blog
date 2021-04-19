@@ -16,7 +16,11 @@
     <div class="navbar navbar-light bg-light">
       <div class="container">
         <a class="navbar-brand">
-          <h2>WRITE YOUR NAME</h2>
+          <?php if (isLoggedIn()) { ?>
+            <h2><?= $_SESSION['user_name'] ?></h2>
+          <?php } else { ?>
+            <h2>Article Blog</h2>
+          <?php } ?>
         </a>
         <div class="d-flex">
           <form class="form-inline">
@@ -53,25 +57,28 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="<?= URLROOT ?>">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Architecture</a>
+              <a class="nav-link" href="<?= URLROOT ?>articles/category/architecture">Architecture</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Art & illustration</a>
+              <a class="nav-link" href="<?= URLROOT ?>articles/category/art-and-illustration">Art & illustration</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="#">Business & corporate</a>
+              <a class="nav-link disabled" href="<?= URLROOT ?>articles/category/business-and-corporate">Business & corporate</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="#">Culture & Education</a>
+              <a class="nav-link disabled" href="<?= URLROOT ?>articles/category/culture-and-education">Culture & Education</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="#">E-Commerce</a>
+              <a class="nav-link disabled" href="<?= URLROOT ?>articles/category/e-commerce">E-Commerce</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="#">Design Agences</a>
+              <a class="nav-link disabled" href="<?= URLROOT ?>articles/category/design-agences">Design Agences</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="<?= URLROOT ?>articles/category/mobile-and-apps">Mobile & Apps</a>
             </li>
           </ul>
         </div>

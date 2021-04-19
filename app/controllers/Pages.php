@@ -1,22 +1,18 @@
 <?php
-  class Pages extends Controller {
-    public function __construct(){
-     
-    }
-    
-    public function index(){
-      $data = [
-        'title' => 'TraversyMVC',
-      ];
-     
-      $this->view('pages/index', $data);
+
+class Pages extends Controller
+{
+    public function __construct()
+    {
+        $this->pagesModel = $this->model('Page');
     }
 
-    public function about(){
-      $data = [
-        'title' => 'About Us'
-      ];
-
-      $this->view('pages/about', $data);
+    public function index()
+    {
+        $articles = $this->pagesModel->getArticles();
+        $data = [
+            'articles' => $articles,
+        ];
+        $this->view('pages/index', $data);
     }
-  }
+}
