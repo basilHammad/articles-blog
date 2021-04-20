@@ -1,18 +1,16 @@
 <?php
 class Articles extends Controller
 {
-
     public function __construct()
     {
         $this->articleModel = $this->model('Article');
     }
 
-
     public function manage()
     {
-        if (!isLoggedIn()) {
-            redirect('users/login');
-        };
+        if (!isLoggedIn()) redirect('users/login');
+        $_SESSION['page'] = 'articles/manage';
+
         $articles = $this->articleModel->getUserArticles();
         $data = ['articles' => $articles];
         $this->view('articles/manage', $data);
@@ -20,37 +18,14 @@ class Articles extends Controller
 
     public function add()
     {
-        if (!isLoggedIn()) {
-            redirect('users/login');
-        };
+        if (!isLoggedIn()) redirect('users/login');
+
+        $_SESSION['page'] = 'articles/add';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            $target_dir =  '/var/www/html/blog/public/img/article-imgs/';
-            $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-            $uploadOk = true;
-            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-            $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-
-            if (!$check !== false) {
-                $data['img_error'] =  "File is not an image.";
-                $uploadOk = false;
-            }
-
-            if (
-                $imageFileType != "jpg" && $imageFileType != "png" &&
-                $imageFileType != "jpeg" && $imageFileType != "gif"
-            ) {
-                $data['img_error'] = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-                $uploadOk = false;
-            }
-
-            if ($uploadOk) {
-                move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
-            } else {
-                die('failed to store ');
-            }
+            handelUpload($data);
 
             $data = [
                 'user_id' => $_SESSION['user_id'],
@@ -65,7 +40,6 @@ class Articles extends Controller
                 'body_error' => '',
                 'img_error' => '',
             ];
-
 
             if (empty($data['title']))       $data['title_error']       = 'please enter a title';
             if (empty($data['category']))    $data['category_error']    = 'please chose a category';
@@ -100,37 +74,14 @@ class Articles extends Controller
 
     public function edit($id)
     {
-        if (!isLoggedIn()) {
-            redirect('users/login');
-        };
+        if (!isLoggedIn()) redirect('users/login');
+
+        $_SESSION['page'] = 'articles/edit';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            $target_dir =  '/var/www/html/blog/public/img/article-imgs/';
-            $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-            $uploadOk = true;
-            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-            $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-
-            if (!$check !== false) {
-                $data['img_error'] =  "File is not an image.";
-                $uploadOk = false;
-            }
-
-            if (
-                $imageFileType != "jpg" && $imageFileType != "png" &&
-                $imageFileType != "jpeg" && $imageFileType != "gif"
-            ) {
-                $data['img_error'] = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-                $uploadOk = false;
-            }
-
-            if ($uploadOk) {
-                move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
-            } else {
-                die('failed to store ');
-            }
+            handelUpload($data);
 
             $data = [
                 'user_id' => $_SESSION['user_id'],
@@ -190,22 +141,54 @@ class Articles extends Controller
         }
     }
 
-    public function category($category)
+    public function category($category = '')
     {
-        $articles = $this->articleModel->getArticlesByCategory($category);
-        $data = ['articles' => $articles];
-        $this->view('articles/category', $data);
+        $_SESSION['page'] = 'articles/category';
+        if (!empty($_POST['search'])) {
+            $articles = $this->articleModel->search($_POST['search']);
+            $data = [
+                'articles' => $articles
+            ];
+            $this->view('articles/category', $data);
+        }
+        // todo: check where the post go
+        // elseif (!empty($_POST['id'])) {
+        //     $loadMore = true;
+        //     $articles = $this->pagesModel->getArticles($_POST['id'], $loadMore);
+        //     $data = [
+        //         'articles' => $articles,
+        //         'URLROOT' => URLROOT,
+        //         'page' => $_SESSION['page']
+        //     ];
+        //     die(json_encode($data));
+        // }
+        else {
+            $articles = $this->articleModel->getArticlesByCategory($category);
+            $data = ['articles' => $articles];
+            $this->view('articles/category', $data);
+        }
     }
 
     public function show($id)
     {
+        $_SESSION['page'] = 'articles/show';
+        $article = $this->articleModel->getArticleById($id);
+        $comments = $this->articleModel->getCommentsByArticleId($id);
+        $data = [
+            'article' => $article,
+            'id' => $id,
+            'comments' => $comments,
+            'comment' => '',
+            'name' => '',
+            'email' => '',
+        ];
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-
             $data = [
-                $article = $this->articleModel->getArticleById($id),
+                'article' => $article,
                 'id' => $id,
                 'user_id' => $_SESSION['user_id'],
                 'comment' => trim($_POST['comment']),
@@ -215,7 +198,6 @@ class Articles extends Controller
                 'name_error' => '',
                 'email_error' => '',
             ];
-
 
             if (empty($data['email'])) $data['email_error'] = 'email is required!';
             if (empty($data['name'])) $data['name_error'] = 'name is required!';
@@ -229,8 +211,6 @@ class Articles extends Controller
                 empty($data['img_error'])
             ) {
                 $this->articleModel->addComment($data);
-                $article = $this->articleModel->getArticleById($id);
-                $comments = $this->articleModel->getComments();
                 $data = [
                     'article' => $article,
                     'id' => $id,
@@ -244,16 +224,6 @@ class Articles extends Controller
                 $this->view('articles/show/', $data);
             }
         } else {
-            $article = $this->articleModel->getArticleById($id);
-            $comments = $this->articleModel->getComments();
-            $data = [
-                'article' => $article,
-                'id' => $id,
-                'comments' => $comments,
-                'comment' => '',
-                'name' => '',
-                'email' => '',
-            ];
             $this->view('articles/show', $data);
         }
     }

@@ -8,6 +8,7 @@ class Users extends Controller
 
     public function register()
     {
+        $_SESSION['page'] = 'users/register';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // handle the submision
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -80,6 +81,7 @@ class Users extends Controller
 
     public function login()
     {
+        $_SESSION['page'] = 'users/login';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data = [

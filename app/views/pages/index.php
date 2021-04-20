@@ -23,19 +23,34 @@
   <div class="container">
     <div class="row">
       <div class="col-md-8">
-        <?php foreach ($data['articles'] as $article) { ?>
-          <div class="card mb-5">
-            <div class="img-wrapper mb-4">
-              <a href="<?= URLROOT; ?>articles/show/<?= $article->id; ?>">
-                <img src="<?= URLROOT . 'img/article-imgs/' . $article->img ?>" alt="" />
-              </a>
+        <div id="articles-container">
+          <?php foreach ($data['articles'] as $article) { ?>
+            <div class="card mb-5">
+              <div class="img-wrapper mb-4">
+                <a href="<?= URLROOT; ?>articles/show/<?= $article->id; ?>">
+                  <img src="<?= URLROOT . 'img/article-imgs/' . $article->img ?>" alt="" />
+                </a>
+              </div>
+              <a href="#"><strong><?= strtoupper($article->category)  ?></strong></a>
+              <h2 class="pt-4"><?= $article->title ?></h2>
+              <p> <?= $article->description ?> </p>
             </div>
-            <a href="#"><strong><?= strtoupper($article->category)  ?></strong></a>
-            <h2 class="pt-4"><?= $article->title ?></h2>
-            <p> <?= $article->description ?> </p>
+          <?php
+            $id = $article->id;
+            echo $id;
+          } ?>
+        </div>
+        <div class="container">
+          <div class="load-more_wrapper">
+            <button class="<?= ($data['last_id']) === $id ? 'd-none' : '' ?>" id="load-more" data-id="<?= $id ?>">LOAD MORE
+              <span class="d-block">
+                <i class="fas fa-chevron-down fa-2x d-block"></i>
+                <i class="fas fa-chevron-down fa-2x d-block down"></i>
+              </span>
+            </button>
           </div>
+        </div>
 
-        <?php } ?>
       </div>
       <div class="col-md-4 px-3">
         <div class="sections-wrapper px-1 py-3 mb-5 bg-light">

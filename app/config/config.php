@@ -10,4 +10,4 @@ define('APPROOT', dirname(dirname(__FILE__)));
 // URL Root
 define('URLROOT', 'http://localhost/blog/');
 // Site Name
-define('SITENAME', 'blog website');
+define('SITENAME', 'Article Blog');

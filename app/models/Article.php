@@ -96,7 +96,7 @@ class Article
 
     public function getArticlesByCategory($category)
     {
-        $this->db->query('SELECT * FROM articles WHERE category = :category');
+        $this->db->query('SELECT * FROM articles WHERE category = :category  ORDER BY id LIMIT 8');
         $this->db->bind(':category', $category);
 
         $row = $this->db->resultSet();
@@ -107,13 +107,13 @@ class Article
 
     public function addComment($data)
     {
-        $this->db->query('INSERT INTO comments(body, name, email, user_id)
-                                        VALUES(:comment, :name, :email, :user_id)');
+        $this->db->query('INSERT INTO comments(body, name, email, article_id)
+                                        VALUES(:comment, :name, :email, :article_id)');
 
         $this->db->bind(':comment', $data['comment']);
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);
-        $this->db->bind(':user_id', $data['user_id']);
+        $this->db->bind(':article_id', $data['id']);
 
         if ($this->db->execute()) {
             return true;
@@ -122,9 +122,18 @@ class Article
         }
     }
 
-    public function getComments()
+    public function getCommentsByArticleId($id)
     {
-        $this->db->query('SELECT * FROM comments');
+        $this->db->query('SELECT * FROM comments WHERE article_id = :id');
+        $this->db->bind(':id', $id);
+
+        $result = $this->db->resultSet();
+        return $result;
+    }
+
+    public function search($searchTerm)
+    {
+        $this->db->query("SELECT * FROM articles WHERE title  LIKE '%" . $searchTerm . "%' ");
 
         $result = $this->db->resultSet();
         return $result;

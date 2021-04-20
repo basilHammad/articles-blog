@@ -19,7 +19,7 @@
                             <option value="business-corporate">Business & corporate</option>
                             <option value="culture-Education">Culture & Education</option>
                             <option value="e-commerce">E-Commerce</option>
-                            <option value="design-agences">Design Agences</option>
+                            <option value="development">Development</option>
                         </select>
                         <span class="invalid-feedback"><?= $data['category_error']; ?></span>
                     </div>

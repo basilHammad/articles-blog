@@ -91,3 +91,31 @@ ul {
 .comment {
   padding: 10px 150px;
 }
+
+.load-more_wrapper {
+  display: flex;
+  justify-content: center;
+
+  button {
+    background-color: transparent;
+    color: green;
+    padding: 10px 30px;
+    font-size: 22px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  & .down {
+    transform: translateY(-25px);
+  }
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+  width: 25%;
+}

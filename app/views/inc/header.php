@@ -1,3 +1,8 @@
+<?php $path = URLROOT . $_SESSION['page'];
+$showSearch = false;
+if ($_SESSION['page'] === 'pages/index' || $_SESSION['page'] === 'articles/category') $showSearch = true;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,18 +28,19 @@
           <?php } ?>
         </a>
         <div class="d-flex">
-          <form class="form-inline">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="search" />
-            <button class="btn btn-trans my-2 my-sm-0" type="button" id="search-btn">
-              <i class="fas fa-search"></i>
-            </button>
-          </form>
-          <?php if (!isset($_SESSION['user_id'])) { ?>
+          <?php if ($showSearch) { ?>
+            <form class="form-inline" action="<?= URLROOT . $_SESSION['page'] ?>" method="POST">
+              <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search By Article Title" aria-label="Search" id="search" />
+              <button class="btn btn-light my-2 my-sm-0" type="button" name="search" id="search-btn">
+                <i class="fas fa-search"></i>
+              </button>
+            </form>
+          <?php } ?>
+          <?php if (!isLoggedIn()) { ?>
             <a href="<?= URLROOT ?>users/login" class="btn btn-light my-2 my-sm-0 ml-4">Log in</a>
             <a href="<?= URLROOT ?>users/register" class="btn btn-outline-success my-2 my-sm-0 ml-4">
               Get Started
             </a>
-
           <?php } else { ?>
             <a href="<?= URLROOT ?>users/logout" class="btn btn-light my-2 my-sm-0 ml-4">Log out</a>
             <a href="<?= URLROOT ?>articles/manage" class="btn btn-outline-success my-2 my-sm-0 ml-4">
@@ -56,29 +62,29 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="<?= URLROOT ?>">Home <span class="sr-only">(current)</span></a>
+            <li class="nav-item">
+              <a class="nav-link" href="<?= URLROOT ?>">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="<?= URLROOT ?>articles/category/architecture">Architecture</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="<?= URLROOT ?>articles/category/art-and-illustration">Art & illustration</a>
+              <a class="nav-link" href="<?= URLROOT ?>articles/category/art-illustration">Art & illustration</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="<?= URLROOT ?>articles/category/business-and-corporate">Business & corporate</a>
+              <a class="nav-link" href="<?= URLROOT ?>articles/category/business-and-corporate">Business & corporate</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="<?= URLROOT ?>articles/category/culture-and-education">Culture & Education</a>
+              <a class="nav-link" href="<?= URLROOT ?>articles/category/culture-and-education">Culture & Education</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="<?= URLROOT ?>articles/category/e-commerce">E-Commerce</a>
+              <a class="nav-link" href="<?= URLROOT ?>articles/category/e-commerce">E-Commerce</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="<?= URLROOT ?>articles/category/design-agences">Design Agences</a>
+              <a class="nav-link" href="<?= URLROOT ?>articles/category/development">Development</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="<?= URLROOT ?>articles/category/mobile-and-apps">Mobile & Apps</a>
+              <a class="nav-link" href="<?= URLROOT ?>articles/category/mobile-and-apps">Mobile & Apps</a>
             </li>
           </ul>
         </div>

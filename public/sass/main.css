@@ -101,6 +101,39 @@ ul {
   padding: 10px 150px;
 }
 
+.load-more_wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.load-more_wrapper button {
+  background-color: transparent;
+  color: green;
+  padding: 10px 30px;
+  font-size: 22px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.load-more_wrapper button:hover {
+  background-color: transparent;
+}
+
+.load-more_wrapper .down {
+  -webkit-transform: translateY(-25px);
+          transform: translateY(-25px);
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+  width: 25%;
+}
+
 .carousel-control-next-icon,
 .carousel-control-prev-icon {
   width: 40px;
@@ -127,7 +160,7 @@ ul {
 }
 
 footer {
-  margin-top: 100px;
+  margin-top: 300px;
 }
 
 .footer-top {
