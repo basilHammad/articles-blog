@@ -40,7 +40,6 @@
             </div>
           <?php
             $id = $article->id;
-            echo $id;
           } ?>
         </div>
         <div class="container">

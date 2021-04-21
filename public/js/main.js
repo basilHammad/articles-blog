@@ -43,7 +43,6 @@ $(document).ready(() => {
         });
       } else {
         const articles = response.articles.map((article) => {
-          console.log(response.articles.length === 0);
           $('#load-more').data('id', article.id);
           return ` 
             <div class="col-md-6">
