@@ -9,24 +9,10 @@ class Article
     }
 
     public function getUserArticles()
-    { // todo: select article where the user id  === session id.
-
-
-        // this code needed where i have to fetch all articles.
-        // $this->db->query('SELECT *,
-        // articles.id AS articleId,
-        // users.id AS userId ,
-        // articles.created_at AS articleCreated, 
-        // users.created_at AS userCreated 
-        // FROM articles
-        // INNER JOIN users
-        // ON articles.user_id = users.id
-        // ORDER BY articles.created_at DESC
-        // ');
+    {
 
         $this->db->query('SELECT * FROM articles WHERE user_id = :user_id');
         $this->db->bind(':user_id', $_SESSION['user_id']);
-
 
         $result = $this->db->resultSet();
         return $result;
@@ -64,7 +50,7 @@ class Article
     public function updateArticle($data)
     {
         $this->db->query('UPDATE articles SET title = :title, body = :body, description = :description,
-         category = :category, img = :img WHERE id = :id');
+                                              category = :category, img = :img WHERE id = :id');
 
         $this->db->bind(':title', $data['title']);
         $this->db->bind(':description', $data['description']);

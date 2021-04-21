@@ -10,7 +10,6 @@ class Users extends Controller
     {
         $_SESSION['page'] = 'users/register';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // handle the submision
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             $data = [
@@ -24,7 +23,6 @@ class Users extends Controller
                 'confirm_pass_error' => ''
             ];
 
-            //validation
             if (empty($data['email'])) {
                 $data['email_error'] = 'email is required!';
             } else {
@@ -48,10 +46,8 @@ class Users extends Controller
                 empty($data['pass_error']) &&
                 empty($data['confirm_pass_error'])
             ) {
-                // hash the password
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
-                // register a user 
                 if ($this->userModel->register($data)) {
                     flash('register_success', 'you are registerd and can log in');
                     redirect('users/login');
@@ -59,7 +55,6 @@ class Users extends Controller
                     die('Something went wrong!!!');
                 }
             } else {
-                // load view with errors
                 $this->view('users/register', $data);
             }
         } else {
@@ -74,7 +69,6 @@ class Users extends Controller
                 'confirm_pass_error' => ''
             ];
 
-            // load the view
             $this->view('users/register', $data);
         }
     }
@@ -90,13 +84,11 @@ class Users extends Controller
                 'email_error' => '',
                 'pass_error' => '',
             ];
-            //validation
             if (empty($data['email'])) $data['email_error'] = 'email is required!';
 
             if (empty($data['password']))  $data['pass_error'] = 'password is required!';
 
             if ($this->userModel->findUserByEmail($data['email'])) {
-                // email found check for pass 
             } else {
                 $data['email_error'] = 'email dose not exist';
             }
@@ -113,7 +105,6 @@ class Users extends Controller
                     $this->view('users/login', $data);
                 }
             } else {
-                // load view with errors
                 $this->view('users/login', $data);
             }
         } else {
@@ -124,7 +115,6 @@ class Users extends Controller
                 'pass_error' => '',
             ];
 
-            // load the view
             $this->view('users/login', $data);
         }
     }

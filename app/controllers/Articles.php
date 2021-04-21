@@ -151,9 +151,7 @@ class Articles extends Controller
                 'articles' => $articles
             ];
             $this->view('articles/category', $data);
-        }
-        // todo: check where the post go
-        elseif (!empty($_POST['id'])) {
+        } elseif (!empty($_POST['id'])) {
             $loadMore = true;
             $articles = $this->articleModel->getArticlesByCategory($category, $_POST['id'], $loadMore);
             $data = [
