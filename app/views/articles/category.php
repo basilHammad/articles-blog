@@ -18,7 +18,17 @@
                                 </h3>
                             </div>
                         </div>
-                    <?php } ?>
+                    <?php
+                        $id = $article->id;
+                    } ?>
+                </div>
+                <div class="load-more_wrapper">
+                    <button class="<?= ($data['last_id']) === $id ? 'd-none' : '' ?>" id="load-more" data-id="<?= $id ?>">LOAD MORE
+                        <span class="d-block">
+                            <i class="fas fa-chevron-down fa-2x d-block"></i>
+                            <i class="fas fa-chevron-down fa-2x d-block down"></i>
+                        </span>
+                    </button>
                 </div>
             </div>
             <div class="col-sm-6 col-md-4 px-3">
@@ -50,24 +60,16 @@
                 </div>
                 <div class="popular-articles-wrapper px-1 py-3 bg-light">
                     <h4>Popular Articles</h4>
-                    <div class="popular-article-card">
-                        <div class="img-wrapper">
-                            <img src="<?= URLROOT ?>img/5b67ee95d566e.jpeg" alt="" />
+                    <?php foreach ($data['pupularArticles'] as $article) { ?>
+                        <div class="popular-article-card">
+                            <div class="img-wrapper">
+                                <a href="<?= URLROOT; ?>articles/show/<?= $article->id; ?>">
+                                    <img src="<?= URLROOT ?>img/article-imgs/<?= $article->img ?>" alt="" />
+                                </a>
+                            </div>
+                            <h4 class="p-2"><?= $article->category ?></h4>
                         </div>
-                        <h4 class="p-2">E-commerce</h4>
-                    </div>
-                    <div class="popular-article-card">
-                        <div class="img-wrapper">
-                            <img src="<?= URLROOT ?>img/5b39e6babeef6.jpg" alt="" />
-                        </div>
-                        <h4 class="p-2">Design Agency</h4>
-                    </div>
-                    <div class="popular-article-card">
-                        <div class="img-wrapper">
-                            <img src="<?= URLROOT ?>img/5b6955226700d.png" alt="" />
-                        </div>
-                        <h4 class="p-2">Art & illustration</h4>
-                    </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>

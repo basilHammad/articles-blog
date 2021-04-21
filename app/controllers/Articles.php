@@ -144,6 +144,7 @@ class Articles extends Controller
     public function category($category = '')
     {
         $_SESSION['page'] = 'articles/category';
+        $loadMore = false;
         if (!empty($_POST['search'])) {
             $articles = $this->articleModel->search($_POST['search']);
             $data = [
@@ -152,19 +153,22 @@ class Articles extends Controller
             $this->view('articles/category', $data);
         }
         // todo: check where the post go
-        // elseif (!empty($_POST['id'])) {
-        //     $loadMore = true;
-        //     $articles = $this->pagesModel->getArticles($_POST['id'], $loadMore);
-        //     $data = [
-        //         'articles' => $articles,
-        //         'URLROOT' => URLROOT,
-        //         'page' => $_SESSION['page']
-        //     ];
-        //     die(json_encode($data));
-        // }
-        else {
-            $articles = $this->articleModel->getArticlesByCategory($category);
-            $data = ['articles' => $articles];
+        elseif (!empty($_POST['id'])) {
+            $loadMore = true;
+            $articles = $this->articleModel->getArticlesByCategory($category, $_POST['id'], $loadMore);
+            $data = [
+                'articles' => $articles,
+                'URLROOT' => URLROOT,
+                'page' => $_SESSION['page']
+            ];
+            die(json_encode($data));
+        } else {
+            $pupularArticles = $this->articleModel->getPupularArticles();
+            $articles = $this->articleModel->getArticlesByCategory($category, $_POST['id'], $loadMore);
+            $data = [
+                'articles' => $articles,
+                'pupularArticles' => $pupularArticles
+            ];
             $this->view('articles/category', $data);
         }
     }

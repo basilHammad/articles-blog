@@ -4,9 +4,12 @@
   <div class="carousel-inner">
     <div class="carousel-item active">
       <img class="d-block w-100 h-100" src="<?= URLROOT; ?>img/1_KWvw0J4A3S8DwGlxyvzgqQ.jpeg" alt="First slide" />
+      <div class="carousel-caption d-none d-md-block">
+        <h1>Applying Usability Principles to Stakeholder Management</h1>
+      </div>
     </div>
     <div class="carousel-item">
-      <img class="d-block w-100 h-100" src="<?= URLROOT; ?>/img/1_KWvw0J4A3S8DwGlxyvzgqQ.jpeg" alt="Second slide" />
+      <img class="d-block w-100 h-100" src="<?= URLROOT; ?>/img/O7MEZA0.jpg" alt="Second slide" />
     </div>
   </div>
   <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -81,24 +84,16 @@
         </div>
         <div class="popular-articles-wrapper px-1 py-3 bg-light">
           <h4>Popular Articles</h4>
-          <div class="popular-article-card">
-            <div class="img-wrapper">
-              <img src="<?= URLROOT; ?>img/5b67ee95d566e.jpeg" alt="" />
+          <?php foreach ($data['pupularArticles'] as $article) { ?>
+            <div class="popular-article-card">
+              <div class="img-wrapper">
+                <a href="<?= URLROOT; ?>articles/show/<?= $article->id; ?>">
+                  <img src="<?= URLROOT ?>img/article-imgs/<?= $article->img ?>" alt="" />
+                </a>
+              </div>
+              <h4 class="p-2"><?= $article->category ?></h4>
             </div>
-            <h4 class="p-2">E-commerce</h4>
-          </div>
-          <div class="popular-article-card">
-            <div class="img-wrapper">
-              <img src="<?= URLROOT; ?>img/5b39e6babeef6.jpg" alt="" />
-            </div>
-            <h4 class="p-2">Design Agency</h4>
-          </div>
-          <div class="popular-article-card">
-            <div class="img-wrapper">
-              <img src="<?= URLROOT; ?>img/5b6955226700d.png" alt="" />
-            </div>
-            <h4 class="p-2">Art & illustration</h4>
-          </div>
+          <?php } ?>
         </div>
       </div>
     </div>

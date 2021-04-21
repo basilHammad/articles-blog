@@ -35,4 +35,12 @@ class Page
         $result = $this->db->resultSet();
         return $result;
     }
+
+    public function getPupularArticles()
+    {
+        $this->db->query('SELECT * FROM articles ORDER BY RAND() LIMIT 3');
+
+        $result = $this->db->resultSet();
+        return $result;
+    }
 }

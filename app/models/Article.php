@@ -94,9 +94,13 @@ class Article
     }
 
 
-    public function getArticlesByCategory($category)
+    public function getArticlesByCategory($category, $id, $loadMore)
     {
-        $this->db->query('SELECT * FROM articles WHERE category = :category  ORDER BY id LIMIT 8');
+        if ($loadMore) {
+            $this->db->query("SELECT * FROM articles WHERE category = :category AND id > $id  ORDER BY id LIMIT 8");
+        } else {
+            $this->db->query('SELECT * FROM articles WHERE category = :category  ORDER BY id LIMIT 8');
+        }
         $this->db->bind(':category', $category);
 
         $row = $this->db->resultSet();
@@ -134,6 +138,14 @@ class Article
     public function search($searchTerm)
     {
         $this->db->query("SELECT * FROM articles WHERE title  LIKE '%" . $searchTerm . "%' ");
+
+        $result = $this->db->resultSet();
+        return $result;
+    }
+
+    public function getPupularArticles()
+    {
+        $this->db->query('SELECT * FROM articles ORDER BY RAND() LIMIT 3');
 
         $result = $this->db->resultSet();
         return $result;

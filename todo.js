@@ -11,5 +11,5 @@
 //todo: handel comments                               [*]
 //todo: footer                                        [*]
 //todo: search func                                   [*]
+//todo: popular articles                              [*]
 //todo: load more button                              [ ]
-//todo: popular articles                              [ ]

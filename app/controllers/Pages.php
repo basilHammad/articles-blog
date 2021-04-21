@@ -29,12 +29,13 @@ class Pages extends Controller
             ];
             die(json_encode($data));
         } else {
+            $pupularArticles = $this->pagesModel->getPupularArticles();
             $articles = $this->pagesModel->getArticles($_POST['id'], $loadMore);
             $data = [
                 'articles' => $articles,
-                'last_id' => $lastId
+                'last_id' => $lastId,
+                'pupularArticles' => $pupularArticles
             ];
-            // var_dump(count($data['articles']));
             $this->view('pages/index', $data);
         }
     }
