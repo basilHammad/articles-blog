@@ -65,6 +65,12 @@ $(document).ready(() => {
           )}</strong></a>
           <h2 class="pt-4">${article.title}</h2>
           <p>${article.description}</p>
+          <div class="card-link-wrapper d-flex justify-content-end">
+          <a href="${response.URLROOT}articles/show/${
+            article.id
+          }" class="card-link text-success push-right">Read More</a>
+        </div>
+
         </div>`;
         });
 
