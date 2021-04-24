@@ -46,14 +46,41 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-center mb-5">
-                <?php if (isset($_SESSION['user_id'])) { ?>
-                    <button type="submit" name="submit" class="btn btn-success comment py-sm-1 px-sm-5 ">ADD COMMENT</button>
-                <?php } else { ?>
-                    <a href="<?= URLROOT ?>users/login" class="btn btn-danger comment py-sm-1 px-sm-5">Log In To Comment</a>
-                <?php } ?>
+            <div class="row justify-content-center mb-5">
+                <div class="col-md-6">
+                    <?php if (isset($_SESSION['user_id'])) { ?>
+                        <button type="submit" name="submit" class="btn btn-success btn-block comment">ADD COMMENT</button>
+                    <?php } else { ?>
+                        <a href="<?= URLROOT ?>users/login" class="btn btn-danger btn-block comment">Log In To Comment</a>
+                    <?php } ?>
+                </div>
             </div>
         </form>
+    </div>
+</section>
+<section>
+    <div class="container">
+        <h2 class="py-3">Similar Articles</h2>
+        <div class="row">
+            <?php foreach ($data['similar-articles'] as $similarArticle) {
+                if ($data['article']->id !== $similarArticle->id) {
+            ?>
+                    <div class="col-md-3">
+                        <div class="card-similar-articles">
+                            <div class="img-wrapper mb-3">
+                                <a href="<?= URLROOT; ?>articles/show/<?= $similarArticle->id; ?>">
+                                    <img src="<?= URLROOT . 'img/article-imgs/' . $similarArticle->img ?>" alt="" />
+                                </a>
+                            </div>
+                            <h3>
+                                <?= $similarArticle->title ?>
+                            </h3>
+                        </div>
+                    </div>
+            <?php
+                }
+            } ?>
+        </div>
     </div>
 </section>
 

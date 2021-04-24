@@ -14,9 +14,23 @@ class Pages extends Controller
         $lastId = $this->pagesModel->getLastId()->id;
         if (!empty($_POST['search'])) {
             $articles = $this->pagesModel->search($_POST['search']);
+            $pupularArticles = $this->pagesModel->getPopularArticles();
+            $categorysCount = $this->pagesModel->getCategoryCount();
+
             $data = [
-                'articles' => $articles
+                'articles' => $articles,
+                'last_id' => $lastId,
+                'pupularArticles' => $pupularArticles,
             ];
+            foreach ($categorysCount as $categoryCount) {
+                if ($categoryCount->category === 'development') $data['development_count'] = $categoryCount->count;
+                if ($categoryCount->category === 'architecture') $data['architecture_count'] = $categoryCount->count;
+                if ($categoryCount->category === 'art-illustration') $data['art-illustration_count'] = $categoryCount->count;
+                if ($categoryCount->category === 'business-corporate') $data['business-corporate_count'] = $categoryCount->count;
+                if ($categoryCount->category === 'culture-Education') $data['culture-Education_count'] = $categoryCount->count;
+                if ($categoryCount->category === 'e-commerce') $data['e-commerce_count'] = $categoryCount->count;
+                if ($categoryCount->category === 'design_agency') $data['design_agency_count'] = $categoryCount->count;
+            };
             $this->view('pages/index', $data);
         } elseif (!empty($_POST['id'])) {
             $loadMore = true;

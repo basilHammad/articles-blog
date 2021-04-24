@@ -9,6 +9,7 @@ class Articles extends Controller
     public function manage()
     {
         if (!isLoggedIn()) redirect('users/login');
+
         $_SESSION['page'] = 'articles/manage';
 
         $articles = $this->articleModel->getUserArticles();
@@ -149,9 +150,22 @@ class Articles extends Controller
         $lastId = $this->articleModel->getLastIdByCategory($category)->id;
         if (!empty($_POST['search'])) {
             $articles = $this->articleModel->search($_POST['search']);
+            $pupularArticles = $this->articleModel->getPopularArticles();
+            $categorysCount = $this->articleModel->getCategoryCount();
             $data = [
-                'articles' => $articles
+                'articles' => $articles,
+                'pupularArticles' => $pupularArticles,
+                'last_id' => $lastId
             ];
+            foreach ($categorysCount as $categoryCount) {
+                if ($categoryCount->category === 'development') $data['development_count'] = $categoryCount->count;
+                if ($categoryCount->category === 'architecture') $data['architecture_count'] = $categoryCount->count;
+                if ($categoryCount->category === 'art-illustration') $data['art-illustration_count'] = $categoryCount->count;
+                if ($categoryCount->category === 'business-corporate') $data['business-corporate_count'] = $categoryCount->count;
+                if ($categoryCount->category === 'culture-Education') $data['culture-Education_count'] = $categoryCount->count;
+                if ($categoryCount->category === 'e-commerce') $data['e-commerce_count'] = $categoryCount->count;
+                if ($categoryCount->category === 'design_agency') $data['design_agency_count'] = $categoryCount->count;
+            };
             $this->view('articles/category', $data);
         } elseif (!empty($_POST['id'])) {
             $loadMore = true;
@@ -190,6 +204,8 @@ class Articles extends Controller
     {
         $_SESSION['page'] = 'articles/show';
         $article = $this->articleModel->getArticleById($id);
+        $similarArticles = $this->articleModel->getArticlesByCategory($article->category);
+        if (count($similarArticles) > 4) $similarArticles = array_slice($this->articleModel->getArticlesByCategory($article->category), 4);
         $comments = $this->articleModel->getCommentsByArticleId($id);
         $data = [
             'article' => $article,
@@ -198,6 +214,7 @@ class Articles extends Controller
             'comment' => '',
             'name' => '',
             'email' => '',
+            'similar-articles' => $similarArticles
         ];
         $this->articleModel->updatePopularity($id);
 

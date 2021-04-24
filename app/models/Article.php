@@ -97,12 +97,19 @@ class Article
     }
 
 
-    public function getArticlesByCategory($category, $id, $loadMore)
+    public function getArticlesByCategory($category, $id = '', $loadMore = '')
     {
         if ($loadMore) {
-            $this->db->query("SELECT * FROM articles WHERE category = :category AND id > $id  ORDER BY id LIMIT 8");
+            $this->db->query("SELECT * FROM articles
+                              WHERE category = :category
+                              AND id > $id  
+                              ORDER BY id 
+                              LIMIT 8");
         } else {
-            $this->db->query('SELECT * FROM articles WHERE category = :category  ORDER BY id LIMIT 8');
+            $this->db->query('SELECT * FROM articles 
+                              WHERE category = :category  
+                              ORDER BY id 
+                              LIMIT 8');
         }
         $this->db->bind(':category', $category);
 
@@ -113,7 +120,10 @@ class Article
 
     public function getLastIdByCategory($category)
     {
-        $this->db->query("SELECT * FROM articles WHERE category = :category ORDER BY id DESC LIMIT 8");
+        $this->db->query("SELECT * FROM articles 
+                          WHERE category = :category 
+                          ORDER BY id DESC 
+                          LIMIT 8");
         $this->db->bind(':category', $category);
         $result = $this->db->single();
         return $result;
@@ -124,7 +134,7 @@ class Article
     public function addComment($data)
     {
         $this->db->query('INSERT INTO comments(body, name, email, article_id)
-                                        VALUES(:comment, :name, :email, :article_id)');
+                          VALUES(:comment, :name, :email, :article_id)');
 
         $this->db->bind(':comment', $data['comment']);
         $this->db->bind(':name', $data['name']);
@@ -140,7 +150,8 @@ class Article
 
     public function getCommentsByArticleId($id)
     {
-        $this->db->query('SELECT * FROM comments WHERE article_id = :id');
+        $this->db->query('SELECT * FROM comments 
+                          WHERE article_id = :id');
         $this->db->bind(':id', $id);
 
         $result = $this->db->resultSet();
@@ -149,7 +160,9 @@ class Article
 
     public function search($searchTerm)
     {
-        $this->db->query("SELECT * FROM articles WHERE title  LIKE '%" . $searchTerm . "%' ");
+        $this->db->query("SELECT * FROM articles 
+                          WHERE title  
+                          LIKE '%" . $searchTerm . "%' ");
 
         $result = $this->db->resultSet();
         return $result;

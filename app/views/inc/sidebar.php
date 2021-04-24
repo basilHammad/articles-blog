@@ -16,7 +16,7 @@
         </div>
         <?php if ($showSearch) { ?>
             <form class="form-inline mt-5 side-bar-form" action="<?= URLROOT . $_SESSION['page'] ?>" method="POST">
-                <input name="search" class="form-control mr-sm-2 sidebar-search" type="search" placeholder="Search By Article Title" aria-label="Search" id="search" />
+                <input name="search" class="form-control mr-sm-2 sidebar-search" type="search" placeholder="Search By Article Title" aria-label="Search" />
                 <i class="fas fa-search" id="sidebar-search"></i>
             </form>
         <?php } ?>

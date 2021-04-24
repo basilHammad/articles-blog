@@ -93,7 +93,7 @@
       <input id="last_id" type="hidden" value="<?= $data['last_id'] ?>">
       <input id="load_more_id" type="hidden" value="<?= $id ?>">
       <input id="data" type="hidden" value='<?= json_encode($data['articles']) ?>'>
-      <?php if ($data['last_id'] !== $id) { ?>
+      <?php if ($data['last_id'] !== $id && count($data['articles']) > 1) { ?>
         <div class="load-more_wrapper col order-2 order-md-3">
           <button id="load-more">LOAD MORE
             <span class="d-block">

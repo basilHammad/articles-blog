@@ -4,8 +4,14 @@
         <div class="gray"></div>
         <form class="form" action="">
             <h2>contact us</h2>
-            <input type="email" placeholder="Your Email" />
-            <button class="btn btn-success px-4">SEND</button>
+            <div class="row">
+                <div class="col-sm-12 col-md-8 ">
+                    <input class="btn-block pl-2 text-light" type="email" placeholder="Your Email" />
+                </div>
+                <div class="col-sm-12 col-md-4 mt-2 mt-md-0 d-flex justify-content-center">
+                    <button class="btn btn-success px-5 ">SEND</button>
+                </div>
+            </div>
         </form>
     </div>
     <div class="footer-bottom">

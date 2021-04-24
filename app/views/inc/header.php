@@ -20,7 +20,7 @@ if ($_SESSION['page'] === 'pages/index' || $_SESSION['page'] === 'articles/categ
   <header>
     <div class="navbar navbar-light bg-light">
       <div class="container">
-        <a class="navbar-brand">
+        <a href="<?= URLROOT ?>" class="navbar-brand">
           <?php if (isLoggedIn()) { ?>
             <h2><?= $_SESSION['user_name'] ?></h2>
           <?php } else { ?>
