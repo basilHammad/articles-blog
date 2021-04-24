@@ -5,7 +5,7 @@
         <form class="form" action="">
             <h2>contact us</h2>
             <input type="email" placeholder="Your Email" />
-            <button class="btn btn-success px-5">SEND</button>
+            <button class="btn btn-success px-4">SEND</button>
         </form>
     </div>
     <div class="footer-bottom">

@@ -39,13 +39,30 @@ class Article
 
     public function getArticleById($id)
     {
+
         $this->db->query('SELECT * FROM articles WHERE id = :id');
         $this->db->bind(':id', $id);
-
         $row = $this->db->single();
 
         return $row;
     }
+
+    public function updatePopularity($id)
+    {
+        $this->db->query('UPDATE articles SET popularity = popularity + 1 WHERE id = :id');
+        $this->db->bind(':id', $id);
+        $this->db->execute();
+    }
+
+    public function getPopularArticles()
+    {
+        $this->db->query('SELECT * FROM  articles ORDER BY popularity DESC LIMIT 3');
+        $row = $this->db->resultSet();
+
+        return $row;
+    }
+
+
 
     public function updateArticle($data)
     {
@@ -94,6 +111,15 @@ class Article
         return $row;
     }
 
+    public function getLastIdByCategory($category)
+    {
+        $this->db->query("SELECT * FROM articles WHERE category = :category ORDER BY id DESC LIMIT 8");
+        $this->db->bind(':category', $category);
+        $result = $this->db->single();
+        return $result;
+    }
+
+
 
     public function addComment($data)
     {
@@ -129,11 +155,10 @@ class Article
         return $result;
     }
 
-    public function getPupularArticles()
+    public function getCategoryCount()
     {
-        $this->db->query('SELECT * FROM articles ORDER BY RAND() LIMIT 3');
-
-        $result = $this->db->resultSet();
-        return $result;
+        $this->db->query('SELECT COUNT(id) AS count, category FROM articles GROUP BY category');
+        $row = $this->db->resultSet();
+        return $row;
     }
 }

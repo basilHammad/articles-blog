@@ -1,4 +1,5 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
+<?php require APPROOT . '/views/inc/sidebar.php'; ?>
 
 <div class="hero">
     <img src="<?= URLROOT . 'img/article-imgs/' . $data['article']->img ?>" alt="Second slide" />
@@ -6,8 +7,8 @@
 
 <section class="article text-muted">
     <div class="container pt-5">
-        <a href="articles/category">
-            <h3 class="pb-5">category</h3>
+        <a href="<?= URLROOT . 'articles/category/' . $data['article']->category ?>">
+            <h3 class="pb-5"><?= $data['article']->category ?></h3>
         </a>
 
         <h1 class="text-dark"><?= $data['article']->title ?></h1>
@@ -47,9 +48,9 @@
             </div>
             <div class="d-flex justify-content-center mb-5">
                 <?php if (isset($_SESSION['user_id'])) { ?>
-                    <button type="submit" name="submit" class="btn btn-success comment">ADD COMMENT</button>
+                    <button type="submit" name="submit" class="btn btn-success comment py-sm-1 px-sm-5 ">ADD COMMENT</button>
                 <?php } else { ?>
-                    <a href="<?= URLROOT ?>users/login" class="btn btn-success comment">Log In To Comment</a>
+                    <a href="<?= URLROOT ?>users/login" class="btn btn-danger comment py-sm-1 px-sm-5">Log In To Comment</a>
                 <?php } ?>
             </div>
         </form>

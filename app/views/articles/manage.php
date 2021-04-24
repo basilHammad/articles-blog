@@ -1,4 +1,5 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
+<?php require APPROOT . '/views/inc/sidebar.php'; ?>
 
 <div class="container p-5">
     <?php flash('article_message'); ?>
@@ -33,7 +34,7 @@
                         <p class="card-text"><small class="text-muted">Last Modified <?= $article->modified_at ?></small></p>
                         <div class="controls">
                             <a href="<?= URLROOT; ?>articles/edit/<?= $article->id; ?>">
-                                <i class="far fa-edit fa-2x text-dark"></i>
+                                <i class="far fa-edit fa-2x text-dark mr-2"></i>
                             </a>
                             <a href="<?= URLROOT; ?>articles/delete/<?= $article->id; ?>">
                                 <i class="fas fa-trash fa-2x text-dark"></i>

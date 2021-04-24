@@ -27,10 +27,10 @@ if ($_SESSION['page'] === 'pages/index' || $_SESSION['page'] === 'articles/categ
             <h2>Article Blog</h2>
           <?php } ?>
         </a>
-        <div class="d-flex">
+        <div class="header-controls">
           <?php if ($showSearch) { ?>
             <form class="form-inline" action="<?= URLROOT . $_SESSION['page'] ?>" method="POST">
-              <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search By Article Title" aria-label="Search" id="search" />
+              <input name="search" class="form-control mr-sm-2 search" type="search" placeholder="Search By Article Title" aria-label="Search" id="search" />
               <button class="btn btn-light my-2 my-sm-0" type="button" name="search" id="search-btn">
                 <i class="fas fa-search"></i>
               </button>
@@ -52,14 +52,15 @@ if ($_SESSION['page'] === 'pages/index' || $_SESSION['page'] === 'articles/categ
 
 
         </div>
+        <button class="navbar-toggler" type="button" id="sidebar-toggler">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
       </div>
     </div>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-bottom">
       <div class="container">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
@@ -84,7 +85,7 @@ if ($_SESSION['page'] === 'pages/index' || $_SESSION['page'] === 'articles/categ
               <a class="nav-link" href="<?= URLROOT ?>articles/category/development">Development</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="<?= URLROOT ?>articles/category/mobile-and-apps">Mobile & Apps</a>
+              <a class="nav-link" href="<?= URLROOT ?>articles/category/design-agency">Design Agency</a>
             </li>
           </ul>
         </div>

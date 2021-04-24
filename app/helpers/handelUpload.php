@@ -2,7 +2,7 @@
 
 function handelUpload(&$data)
 {
-    $target_dir =  '/var/www/html/blog/public/img/article-imgs/';
+    $target_dir =  dirname(__FILE__) . '/../../public/img/article-imgs/';
     $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
     $uploadOk = true;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -23,7 +23,5 @@ function handelUpload(&$data)
 
     if ($uploadOk) {
         move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
-    } else {
-        die('failed to store ');
     }
 }

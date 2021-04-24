@@ -1,4 +1,5 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
+<?php require APPROOT . '/views/inc/sidebar.php'; ?>
 <div class="container">
     <div class="card card-body bg-light mt-5">
         <h2>Add New Article</h2>
@@ -11,21 +12,23 @@
                         <span class="invalid-feedback"><?= $data['title_error']; ?></span>
                     </div>
                     <div class="form-group">
+                        <input type="text" id="selected-category" value="<?= $data['category']; ?>" hidden>
                         <label for="category">Category: <sup>*</sup></label>
-                        <select class='form-control form-control-lg <?= (!empty($data['category_error'])) ? 'is-invalid' : ''; ?>' name="category" id="category" value="<?= $data['category']; ?>">
+                        <select class='form-control form-control-lg <?= (!empty($data['category_error'])) ? 'is-invalid' : ''; ?>' name="category" id="category">
                             <option></option>
-                            <option value="architecture">Architecture</option>
-                            <option value="art-illustration">Art & illustration</option>
-                            <option value="business-corporate">Business & corporate</option>
-                            <option value="culture-Education">Culture & Education</option>
-                            <option value="e-commerce">E-Commerce</option>
-                            <option value="development">Development</option>
+                            <option value="architecture" id="architecture">Architecture</option>
+                            <option value="art-illustration" id="art-illustration">Art & illustration</option>
+                            <option value="business-corporate" id="business-corporate">Business & corporate</option>
+                            <option value="culture-Education" id="culture-Education">Culture & Education</option>
+                            <option value="e-commerce" id="e-commerce">E-Commerce</option>
+                            <option value="development" id="development">Development</option>
+                            <option value="design-agency" id="design_agency">Design Agency</option>
                         </select>
                         <span class="invalid-feedback"><?= $data['category_error']; ?></span>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
+                    <div class="form-group upove-file">
                         <label for="description">Description: <sup>*</sup></label>
                         <input type="text" name="description" class="form-control form-control-lg <?= (!empty($data['description_error'])) ? 'is-invalid' : ''; ?>" value="<?= $data['description']; ?>">
                         <span class="invalid-feedback"><?= $data['description_error']; ?></span>

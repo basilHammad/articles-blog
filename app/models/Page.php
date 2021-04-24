@@ -10,6 +10,7 @@ class Page
 
     public function getArticles($id, $loadMore)
     {
+        $page = !empty($_GET['page']) ? $_GET['page'] : 1;
 
         if ($loadMore) {
             $this->db->query("SELECT * FROM articles WHERE id > $id ORDER BY id LIMIT 3");
@@ -23,7 +24,7 @@ class Page
 
     public function getLastId()
     {
-        $this->db->query('select * from articles ORDER BY id DESC LIMIT 1');
+        $this->db->query('SELECT * FROM articles ORDER BY id DESC LIMIT 1');
         $result = $this->db->single();
         return $result;
     }
@@ -36,11 +37,17 @@ class Page
         return $result;
     }
 
-    public function getPupularArticles()
+    public function getPopularArticles()
     {
-        $this->db->query('SELECT * FROM articles ORDER BY RAND() LIMIT 3');
+        $this->db->query('SELECT * FROM  articles ORDER BY popularity DESC LIMIT 3');
+        $row = $this->db->resultSet();
+        return $row;
+    }
 
-        $result = $this->db->resultSet();
-        return $result;
+    public function getCategoryCount()
+    {
+        $this->db->query('SELECT COUNT(id) AS count, category FROM articles GROUP BY category');
+        $row = $this->db->resultSet();
+        return $row;
     }
 }

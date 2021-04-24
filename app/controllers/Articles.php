@@ -25,7 +25,6 @@ class Articles extends Controller
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            handelUpload($data);
 
             $data = [
                 'user_id' => $_SESSION['user_id'],
@@ -41,6 +40,7 @@ class Articles extends Controller
                 'img_error' => '',
             ];
 
+            handelUpload($data);
             if (empty($data['title']))       $data['title_error']       = 'please enter a title';
             if (empty($data['category']))    $data['category_error']    = 'please chose a category';
             if (empty($data['description'])) $data['description_error'] = 'please enter a description';
@@ -95,6 +95,7 @@ class Articles extends Controller
                 'description_error' => '',
                 'body_error' => '',
                 'img_error' => '',
+                'id' => $id
             ];
 
             if (empty($data['title'])) $data['title_error']             = 'please enter a title';
@@ -145,6 +146,7 @@ class Articles extends Controller
     {
         $_SESSION['page'] = 'articles/category';
         $loadMore = false;
+        $lastId = $this->articleModel->getLastIdByCategory($category)->id;
         if (!empty($_POST['search'])) {
             $articles = $this->articleModel->search($_POST['search']);
             $data = [
@@ -157,16 +159,29 @@ class Articles extends Controller
             $data = [
                 'articles' => $articles,
                 'URLROOT' => URLROOT,
-                'page' => $_SESSION['page']
+                'page' => $_SESSION['page'],
+                'last_id' => $lastId
             ];
             die(json_encode($data));
         } else {
-            $pupularArticles = $this->articleModel->getPupularArticles();
+            $pupularArticles = $this->articleModel->getPopularArticles();
             $articles = $this->articleModel->getArticlesByCategory($category, $_POST['id'], $loadMore);
+            $categorysCount = $this->articleModel->getCategoryCount();
             $data = [
                 'articles' => $articles,
-                'pupularArticles' => $pupularArticles
+                'pupularArticles' => $pupularArticles,
+                'last_id' => $lastId
             ];
+            foreach ($categorysCount as $categoryCount) {
+                if ($categoryCount->category === 'development') $data['development_count'] = $categoryCount->count;
+                if ($categoryCount->category === 'architecture') $data['architecture_count'] = $categoryCount->count;
+                if ($categoryCount->category === 'art-illustration') $data['art-illustration_count'] = $categoryCount->count;
+                if ($categoryCount->category === 'business-corporate') $data['business-corporate_count'] = $categoryCount->count;
+                if ($categoryCount->category === 'culture-Education') $data['culture-Education_count'] = $categoryCount->count;
+                if ($categoryCount->category === 'e-commerce') $data['e-commerce_count'] = $categoryCount->count;
+                if ($categoryCount->category === 'design_agency') $data['design_agency_count'] = $categoryCount->count;
+            };
+
             $this->view('articles/category', $data);
         }
     }
@@ -184,6 +199,7 @@ class Articles extends Controller
             'name' => '',
             'email' => '',
         ];
+        $this->articleModel->updatePopularity($id);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -213,20 +229,16 @@ class Articles extends Controller
                 empty($data['img_error'])
             ) {
                 $this->articleModel->addComment($data);
-                $data = [
-                    'article' => $article,
-                    'id' => $id,
-                    'comments' => $comments,
-                    'comment' => '',
-                    'name' => '',
-                    'email' => '',
-                ];
-                $this->view('articles/show', $data);
+                redirect('articles/show/' . $id);
             } else {
-                $this->view('articles/show/', $data);
+                $this->view('articles/show', $data);
             }
         } else {
-            $this->view('articles/show', $data);
+            if ($article) {
+                $this->view('articles/show', $data);
+            } else {
+                die('Page Not Found');
+            }
         }
     }
 }

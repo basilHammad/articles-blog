@@ -5,3 +5,96 @@ ul.navbar-nav {
 li.nav-item {
   flex: auto;
 }
+
+.header-controls {
+  display: flex;
+}
+
+.navbar-toggler {
+  display: none;
+}
+
+@media screen and (max-width: 990px) {
+  .navbar-bottom,
+  .header-controls {
+    display: none;
+  }
+
+  .navbar-toggler {
+    display: block;
+  }
+}
+
+#search {
+  display: none;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.sidebar {
+  position: fixed;
+  right: 0;
+  height: 100vh;
+  border-left: 1px solid gray;
+  z-index: 20;
+  padding: 30px;
+  transform: translateX(100%);
+  transition: 0.2s ease-in-out;
+
+  .register {
+    transform: translateX(100%);
+    transition: 0.2s ease-in-out;
+
+    &.slide {
+      transform: unset;
+    }
+  }
+
+  .side-bar-form {
+    position: relative;
+    transform: translateX(120%);
+    transition: 0.2s ease-in-out;
+
+    &.slide {
+      transform: unset;
+    }
+
+    i {
+      position: absolute;
+      right: 20px;
+      background-color: transparent;
+      cursor: pointer;
+    }
+  }
+
+  & .sidebar-search {
+    padding-left: 20px;
+  }
+
+  & .nav-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .nav-item {
+      transform: translateX(230%);
+      transition: 0.2s ease-in-out;
+      &.slide {
+        transform: unset;
+      }
+    }
+
+    .nav-link {
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+.slide {
+  transform: unset;
+}
